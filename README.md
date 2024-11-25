@@ -67,3 +67,8 @@ Follow these steps to run a dev version of this project that supports hot reload
    > If you leave the Firefox window open that VS Code launches, the debugger will reattach instead of starting a clean Firefox instance each time.
 
 1. Navigate to your extension and set a breakpoint in a method in VS Code. You should see that breakpoint hit when that method executes.
+
+
+### Resources
+
+https://learn.microsoft.com/en-us/javascript/api/azure-devops-extension-api/release

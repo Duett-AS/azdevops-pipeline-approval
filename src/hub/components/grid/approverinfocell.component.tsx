@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TwoLineTableCell, ITableColumn } from "azure-devops-ui/Table";
+import { TwoLineTableCell, SimpleTableCell, ITableColumn } from "azure-devops-ui/Table";
 import { UserService } from "@src-root/hub/services/user.service";
 import { Tooltip } from "azure-devops-ui/TooltipEx";
 import { Icon } from "azure-devops-ui/Icon";

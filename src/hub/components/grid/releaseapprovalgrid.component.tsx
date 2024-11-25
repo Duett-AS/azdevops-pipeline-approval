@@ -2,7 +2,7 @@ import "./grid.scss";
 
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
-import { Table, ITableColumn, ColumnSelect } from "azure-devops-ui/Table";
+import { Table, ITableColumn, ColumnSelect, renderSimpleCell } from "azure-devops-ui/Table";
 import { ObservableArray, ObservableValue } from "azure-devops-ui/Core/Observable";
 import { ReleaseApprovalService } from "@src-root/hub/services/release-approval.service";
 import { ListSelection } from "azure-devops-ui/List";
@@ -15,6 +15,7 @@ import { renderGridPipelineCell } from "@src-root/hub/components/grid/pipelinece
 import { renderGridReleaseInfoCell } from "@src-root/hub/components/grid/releaseinfocell.component";
 import { renderGridApproverInfoCell } from "@src-root/hub/components/grid/approverinfocell.component";
 import { renderGridActionsCell } from "@src-root/hub/components/grid/actionscell.component";
+import { renderGridDescriptionCell } from "@src-root/hub/components/grid/descriptioncell.component";
 import { Card } from "azure-devops-ui/Card";
 import { ReleaseApproval, ApprovalType } from "azure-devops-extension-api/Release";
 import { ConditionalChildren } from "azure-devops-ui/ConditionalChildren";
@@ -70,9 +71,9 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         return this._approvalForm.current as ReleaseApprovalForm;
     }
 
-    private _configureGridColumns(): ITableColumn<{}>[] {
+    private _configureGridColumns(): ITableColumn<ReleaseApproval>[] {
         return [
-            new ColumnSelect() as ITableColumn<{}>,
+            new ColumnSelect(),
             {
                 id: "pipeline",
                 name: "Release",
@@ -83,6 +84,11 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
                 id: "releaseInfo",
                 renderCell: renderGridReleaseInfoCell,
                 width: -40
+            },
+            {
+                id: "description",
+                renderCell: renderGridDescriptionCell,
+                width: 100
             },
             {
                 id: "approverInfo",
@@ -271,7 +277,7 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
     }
 
     private updateStagesFilter() {
-        let stages = this._tableRowData.value.map(a => a.releaseEnvironment.name);
+        let stages = this._tableRowData.value.map(a => (a as ReleaseApproval).releaseEnvironment.name);
         stages = stages.filter((stage, index) => stages.indexOf(stage) === index);
         this._stagesFilter.removeAll();
         this._stagesFilter.push(...stages.map(stage => {

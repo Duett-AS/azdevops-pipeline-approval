@@ -1,6 +1,8 @@
 import * as React from "react";
 import { SimpleTableCell, ITableColumn } from "azure-devops-ui/Table";
 import { ReleaseApproval } from "azure-devops-extension-api/Release";
+import { ReleaseService } from "@src-root/hub/services/release.service";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export function renderGridDescriptionCell (
     rowIndex: number,
@@ -27,12 +29,13 @@ export interface IGridDescriptionCellProps {
 
 export default class GridDescriptionCell extends React.Component<IGridDescriptionCellProps> {
 
+    private _releaseService: ReleaseService = new ReleaseService();
+
     constructor(props: IGridDescriptionCellProps) {
         super(props);
     }
 
     render(): JSX.Element {
-        const description = this.props.releaseApproval.release;
         return(
             <SimpleTableCell
                 columnIndex={this.props.columnIndex}
@@ -41,7 +44,7 @@ export default class GridDescriptionCell extends React.Component<IGridDescriptio
                 className="bolt-table-cell-content-with-inline-link no-v-padding">
 
                 <div>
-                    <span>Foobar</span>
+                    <span>{(this.props.releaseApproval as ReleaseApprovalEx).description}</span>
                 </div>
 
             </SimpleTableCell>

@@ -1,6 +1,7 @@
 import * as SDK from "azure-devops-extension-sdk";
 import { ReleaseRestClient, ApprovalStatus, EnvironmentStatus, ReleaseApproval } from "azure-devops-extension-api/Release";
 import { getClient, IProjectPageService, CommonServiceIds, IProjectInfo } from "azure-devops-extension-api";
+import { ReleaseApprovalEx } from "../model/ReleaseApprovalEx";
 
 export class ReleaseApprovalService {
 
@@ -13,6 +14,7 @@ export class ReleaseApprovalService {
         const allApprovals: ReleaseApproval[] = [];
         const top = 500;
         let approvals: ReleaseApproval[];
+        
         let continuationToken = 0;
         do {
             approvals = await client.getApprovals(project.name, currentUser.id, undefined, undefined, undefined, top, continuationToken, undefined, true);
@@ -22,6 +24,11 @@ export class ReleaseApprovalService {
             }
         } while (approvals.length == top);
         return allApprovals;
+    }
+
+    convertToReleaseApprovalEx(approval: ReleaseApproval): ReleaseApprovalEx 
+    { 
+        return approval as ReleaseApprovalEx;
     }
 
     async findApprovals(top: number = 50, continuationToken: number = 0): Promise<ReleaseApproval[]> {

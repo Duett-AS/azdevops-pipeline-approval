@@ -3,5 +3,5 @@
   "public": false,
   "baseUri": "http://localhost:3000",
   "name": "Azure Pipelines Approval [DEV]",
-  "version": "1.0.4"
+  "version": "1.0.6"
 }

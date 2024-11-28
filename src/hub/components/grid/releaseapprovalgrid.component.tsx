@@ -29,6 +29,7 @@ import { DropdownSelection, DropdownMultiSelection } from "azure-devops-ui/Utili
 import { from } from "linq";
 import { Button } from "azure-devops-ui/Button";
 import { renderGridDescriptionCell } from "./descriptioncell.component";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export interface IReleaseApprovalGridProps {
     filtersEnabled: boolean;
@@ -215,6 +216,8 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         const promises = approvals.map(async a => {
             await this._releaseService.getLinks(a);
 
+            const description = await this._releaseService.getDescription(a);
+            (a as ReleaseApprovalEx).description = description;
         });
         await Promise.all(promises);
         this._hasMoreItems.value = this._pageLength == approvals.length;

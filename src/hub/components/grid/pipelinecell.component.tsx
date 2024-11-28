@@ -5,10 +5,10 @@ import { Tooltip } from "azure-devops-ui/TooltipEx";
 import { ReleaseApproval } from "azure-devops-extension-api/Release";
 import { Link } from "azure-devops-ui/Link";
 
-export function renderGridPipelineCell(
+export function renderGridPipelineCell<T>(
     rowIndex: number,
     columnIndex: number,
-    tableColumn: ITableColumn<{}>,
+    tableColumn: ITableColumn<T>,
     tableItem: any
 ): JSX.Element {
     const approval: ReleaseApproval = tableItem;
@@ -20,16 +20,16 @@ export function renderGridPipelineCell(
         releaseApproval={approval} />);
 }
 
-export interface IGridPipelineCellProps {
+export interface IGridPipelineCellProps<T> {
     releaseApproval: ReleaseApproval;
     rowIndex: number;
     columnIndex: number;
-    tableColumn: ITableColumn<{}>;
+    tableColumn: ITableColumn<T>;
 }
 
-export default class GridPipelineCell extends React.Component<IGridPipelineCellProps> {
+export default class GridPipelineCell<T> extends React.Component<IGridPipelineCellProps<T>> {
 
-    constructor(props: IGridPipelineCellProps) {
+    constructor(props: IGridPipelineCellProps<T>) {
         super(props);
     }
 

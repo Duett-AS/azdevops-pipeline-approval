@@ -5,10 +5,10 @@ import { Button } from "azure-devops-ui/Button";
 import { ReleaseApprovalEvents, EventType } from "@src-root/hub/model/ReleaseApprovalEvents";
 import { ReleaseApproval } from "azure-devops-extension-api/Release";
 
-export function renderGridActionsCell(
+export function renderGridActionsCell<T>(
     rowIndex: number,
     columnIndex: number,
-    tableColumn: ITableColumn<{}>,
+    tableColumn: ITableColumn<T>,
     tableItem: any
 ): JSX.Element {
     const approval: ReleaseApproval = tableItem;
@@ -20,16 +20,16 @@ export function renderGridActionsCell(
         releaseApproval={approval} />);
 }
 
-export interface IGridActionsCellProps {
+export interface IGridActionsCellProps<T> {
     releaseApproval: ReleaseApproval;
     rowIndex: number;
     columnIndex: number;
-    tableColumn: ITableColumn<{}>;
+    tableColumn: ITableColumn<T>;
 }
 
-export default class GridActionsCell extends React.Component<IGridActionsCellProps> {
+export default class GridActionsCell<T> extends React.Component<IGridActionsCellProps<T>> {
 
-    constructor(props: IGridActionsCellProps) {
+    constructor(props: IGridActionsCellProps<T>) {
         super(props);
     }
 

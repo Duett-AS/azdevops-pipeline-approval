@@ -7,7 +7,7 @@ import { ObservableArray, ObservableValue } from "azure-devops-ui/Core/Observabl
 import { ReleaseApprovalService } from "@src-root/hub/services/release-approval.service";
 import { ListSelection } from "azure-devops-ui/List";
 import { CommonServiceIds, IGlobalMessagesService } from "azure-devops-extension-api";
-import { ArrayItemProvider } from "azure-devops-ui/Utilities/Provider";
+import { ArrayItemProvider, IItemProvider } from "azure-devops-ui/Utilities/Provider";
 import { ISelectionRange } from "azure-devops-ui/Utilities/Selection";
 import { ReleaseApprovalAction } from "@src-root/hub/model/ReleaseApprovalAction";
 import { ReleaseApprovalEvents, EventType } from "@src-root/hub/model/ReleaseApprovalEvents";
@@ -71,9 +71,10 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         return this._approvalForm.current as ReleaseApprovalForm;
     }
 
-    private _configureGridColumns(): ITableColumn<ReleaseApproval>[] {
+    // private _configureGridColumns(): (ColumnSelect | ITableColumn<ReleaseApproval>)[] {
+        private _configureGridColumns(): ITableColumn<ReleaseApproval>[] {
         return [
-            new ColumnSelect(),
+            //new ColumnSelect(),
             {
                 id: "pipeline",
                 name: "Release",
@@ -82,11 +83,13 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
             },
             {
                 id: "releaseInfo",
+                name: "releaseinfo",
                 renderCell: renderGridReleaseInfoCell,
                 width: -40
             },
             {
                 id: "description",
+                name: "description",
                 renderCell: renderGridDescriptionCell,
                 width: 100
             },
@@ -98,6 +101,7 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
             },
             {
                 id: "actions",
+                name: "actions",
                 renderCell: renderGridActionsCell,
                 width: 150
             }

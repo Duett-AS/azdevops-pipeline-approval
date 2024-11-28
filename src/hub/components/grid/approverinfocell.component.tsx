@@ -7,10 +7,10 @@ import { Duration } from "azure-devops-ui/Duration";
 import { ConditionalChildren } from "azure-devops-ui/ConditionalChildren";
 import { ReleaseApproval } from "azure-devops-extension-api/Release";
 
-export function renderGridApproverInfoCell(
+export function renderGridApproverInfoCell<T>(
     rowIndex: number,
     columnIndex: number,
-    tableColumn: ITableColumn<{}>,
+    tableColumn: ITableColumn<T>,
     tableItem: any
 ): JSX.Element {
     const approval: ReleaseApproval = tableItem;
@@ -22,18 +22,18 @@ export function renderGridApproverInfoCell(
         releaseApproval={approval} />);
 }
 
-export interface IGridApproverInfoCellProps {
+export interface IGridApproverInfoCellProps<T> {
     releaseApproval: ReleaseApproval;
     rowIndex: number;
     columnIndex: number;
-    tableColumn: ITableColumn<{}>;
+    tableColumn: ITableColumn<T>;
 }
 
-export default class GridApproverInfoCell extends React.Component<IGridApproverInfoCellProps> {
+export default class GridApproverInfoCell<T> extends React.Component<IGridApproverInfoCellProps<T>> {
 
     private _userService: UserService = new UserService();
 
-    constructor(props: IGridApproverInfoCellProps) {
+    constructor(props: IGridApproverInfoCellProps<T>) {
         super(props);
     }
 

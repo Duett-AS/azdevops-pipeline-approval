@@ -2,10 +2,10 @@ import * as React from "react";
 import { SimpleTableCell, ITableColumn } from "azure-devops-ui/Table";
 import { ReleaseApproval } from "azure-devops-extension-api/Release";
 
-export function renderGridDescriptionCell(
+export function renderGridDescriptionCell<T>(
     rowIndex: number,
     columnIndex: number,
-    tableColumn: ITableColumn<{}>,
+    tableColumn: ITableColumn<T>,
     tableItem: any
 ): JSX.Element {
     const approval: ReleaseApproval = tableItem;
@@ -18,16 +18,16 @@ export function renderGridDescriptionCell(
         releaseApproval={approval} />);
 }
 
-export interface IGridDescriptionCellProps {
+export interface IGridDescriptionCellProps<T> {
     releaseApproval: ReleaseApproval;
     rowIndex: number;
     columnIndex: number;
-    tableColumn: ITableColumn<{}>;
+    tableColumn: ITableColumn<T>;
 }
 
-export default class GridDescriptionCell extends React.Component<IGridDescriptionCellProps> {
+export default class GridDescriptionCell<T> extends React.Component<IGridDescriptionCellProps<T>> {
 
-    constructor(props: IGridDescriptionCellProps) {
+    constructor(props: IGridDescriptionCellProps<T>) {
         super(props);
     }
 

@@ -28,6 +28,7 @@ import { IListBoxItem } from "azure-devops-ui/ListBox";
 import { DropdownSelection, DropdownMultiSelection } from "azure-devops-ui/Utilities/DropdownSelection";
 import { from } from "linq";
 import { Button } from "azure-devops-ui/Button";
+import { renderGridDescriptionCell } from "./descriptioncell.component";
 
 export interface IReleaseApprovalGridProps {
     filtersEnabled: boolean;
@@ -83,6 +84,11 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
                 id: "releaseInfo",
                 renderCell: renderGridReleaseInfoCell,
                 width: -40
+            },
+            {
+                id: "description",
+                renderCell: renderGridDescriptionCell,
+                width: 100
             },
             {
                 id: "approverInfo",

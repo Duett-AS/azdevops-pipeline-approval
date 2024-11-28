@@ -1,9 +1,9 @@
 {
   "manifestVersion": 1,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Azure Pipelines Approval",
-  "description": "A simple way for view and approve releases",
-  "publisher": "gustavobergamim",
+  "description": "A simple view for listing releases to approve",
+  "publisher": "DuettAS",
   "demands": [
     "api-version/5.1"
   ],
@@ -36,18 +36,18 @@
   },
   "links": {
     "repository": {
-      "uri": "https://github.com/gustavobergamim/azdevops-pipeline-approval"
+      "uri": "https://github.com/Duett-AS/azdevops-pipeline-approval"
     },
     "issues": {
-      "uri": "https://github.com/gustavobergamim/azdevops-pipeline-approval/issues"
+      "uri": "https://github.com/Duett-AS/azdevops-pipeline-approval/issues"
     },
     "support": {
-      "uri": "https://github.com/gustavobergamim/azdevops-pipeline-approval"
+      "uri": "https://github.com/Duett-AS/azdevops-pipeline-approval"
     }
   },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/gustavobergamim/azdevops-pipeline-approval"
+    "uri": "https://github.com/Duett-AS/azdevops-pipeline-approval"
   },
   "files": [
     {

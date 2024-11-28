@@ -76,19 +76,21 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
             new ColumnSelect() as ITableColumn<{}>,
             {
                 id: "pipeline",
-                name: "Release",
+                name: "Pipeline",
                 renderCell: renderGridPipelineCell,
                 width: 250
             },
             {
                 id: "releaseInfo",
+                name: "Release",
                 renderCell: renderGridReleaseInfoCell,
                 width: -40
             },
             {
                 id: "description",
+                name: "Description",
                 renderCell: renderGridDescriptionCell,
-                width: 100
+                width: 300
             },
             {
                 id: "approverInfo",

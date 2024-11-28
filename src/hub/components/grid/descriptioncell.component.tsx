@@ -11,7 +11,7 @@ export function renderGridDescriptionCell (
     const approval: ReleaseApproval = tableItem;
 
     return (<GridDescriptionCell
-        key={`col-approver-${columnIndex}-${rowIndex}`}
+        key={`col-description-${columnIndex}-${rowIndex}`}
         rowIndex={rowIndex}
         columnIndex={columnIndex}
         tableColumn={tableColumn} 
@@ -25,14 +25,14 @@ export interface IGridDescriptionCellProps {
     tableColumn: ITableColumn<{}>;
 }
 
-export default class GridDescriptionCell<T> extends React.Component<IGridDescriptionCellProps> {
+export default class GridDescriptionCell extends React.Component<IGridDescriptionCellProps> {
 
     constructor(props: IGridDescriptionCellProps) {
         super(props);
     }
 
     render(): JSX.Element {
-        const description = this.props.releaseApproval.release.name;
+        const description = this.props.releaseApproval.release;
         return(
             <SimpleTableCell
                 columnIndex={this.props.columnIndex}
@@ -41,11 +41,10 @@ export default class GridDescriptionCell<T> extends React.Component<IGridDescrip
                 className="bolt-table-cell-content-with-inline-link no-v-padding">
 
                 <div>
-                    <span>{description}</span>
+                    <span>Foobar</span>
                 </div>
 
             </SimpleTableCell>
-
         );
     }
 }

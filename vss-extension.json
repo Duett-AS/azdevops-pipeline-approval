@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "version": "1.1.0",
+  "version": "1.1.4",
   "name": "Azure Pipelines Approval",
   "description": "A simple view for listing releases to approve",
   "publisher": "DuettAS",
@@ -91,7 +91,7 @@
         "overrideRules": [
           {
             "name": "Feature",
-            "featureId": "gustavobergamim.pipeline-approval.release-approval",
+            "featureId": "DuettAS.pipeline-approval.release-approval",
             "when": "disabled"
           }
         ]
@@ -115,7 +115,7 @@
         {
           "name": "Feature",
           "properties": {
-            "featureId": "gustavobergamim.pipeline-approval.release-approval"
+            "featureId": "DuettAS.pipeline-approval.release-approval"
           }
         }
       ]
@@ -136,7 +136,7 @@
         {
           "name": "Feature",
           "properties": {
-            "featureId": "gustavobergamim.pipeline-approval.release-approval-stage-grouping"
+            "featureId": "DuettAS.pipeline-approval.release-approval-stage-grouping"
           }
         }
       ]

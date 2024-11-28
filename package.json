@@ -1,7 +1,7 @@
 {
   "name": "pipeline-approval",
   "description": "A short description of my extension",
-  "author": "gustavobergamim",
+  "author": "DuettAS",
   "repository": {
     "type": "git",
     "url": "https://github.com/gustavobergamim/azdevops-pipeline-approval.git"
@@ -15,7 +15,8 @@
     "package:qa": "tfx extension create --manifest-globs vss-extension.json --overrides-file configs/qa.json --output-path out/qa",
     "package:prod": "tfx extension create --manifest-globs vss-extension.json --overrides-file configs/prod.json --output-path out/prod",
     "publish:dev": "cross-os publish:dev:pat",
-    "start:dev": "webpack-dev-server --mode development"
+    "start:dev": "webpack-dev-server --mode development",
+    "publish": "npm run compile && npm run package:prod"
   },
   "cross-os": {
     "publish:dev:pat": {

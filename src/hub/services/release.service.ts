@@ -7,23 +7,15 @@ export class ReleaseService {
 
     async getDescription(releaseApproval: ReleaseApproval): Promise<string> {
 
-        // console.log("-- getDescription --");
-        // console.log(JSON.stringify(releaseApproval));
-
-        //return JSON.stringify(releaseApproval);
-
         const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
         const project = await projectService.getProject();
         if (!project) return "";
 
         const client: ReleaseRestClient = getClient(ReleaseRestClient);
 
-        const deployments = await client.getDeployments(project.name, releaseApproval.releaseDefinition.id, undefined
-            , undefined, undefined, undefined, DeploymentStatus.NotDeployed, DeploymentOperationStatus.Pending);
-        const deployment = deployments.find(d => d.release.id === releaseApproval.release.id && d.releaseEnvironment.id === releaseApproval.releaseEnvironment.id);
-        if (!deployment) return "";
+        const release = await client.getRelease(project.name, releaseApproval.release.id);
 
-        return deployment.release.description;
+        return release.description;
     }
 
     async getLinks(releaseApproval: ReleaseApproval): Promise<void> {
@@ -37,7 +29,7 @@ export class ReleaseService {
             , undefined, undefined, undefined, DeploymentStatus.NotDeployed, DeploymentOperationStatus.Pending);
         const deployment = deployments.find(d => d.release.id === releaseApproval.release.id && d.releaseEnvironment.id === releaseApproval.releaseEnvironment.id);
         if (!deployment) return;
-            
+        
         releaseApproval.releaseDefinition._links = deployment.releaseDefinition._links;
         releaseApproval.release._links = deployment.release._links;
         releaseApproval.releaseEnvironment._links = deployment.releaseEnvironment._links;

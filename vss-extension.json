@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "version": "1.1.11",
+  "version": "1.1.19",
   "name": "Azure Pipelines Approval",
   "description": "A simple view for listing releases to approve",
   "publisher": "DuettAS",

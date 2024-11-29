@@ -4,9 +4,10 @@ import { Tooltip } from "azure-devops-ui/TooltipEx";
 import { Icon } from "azure-devops-ui/Icon";
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
 import { Colors } from "@src-root/hub/model/Colors";
-import { ReleaseApproval, ApprovalType } from "azure-devops-extension-api/Release";
 import { PillGroup } from "azure-devops-ui/PillGroup";
 import { Link } from "azure-devops-ui/Link";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
+import { ApprovalType } from "azure-devops-extension-api/Release";
 
 export function renderGridReleaseInfoCell(
     rowIndex: number,
@@ -14,7 +15,7 @@ export function renderGridReleaseInfoCell(
     tableColumn: ITableColumn<{}>,
     tableItem: any
 ): JSX.Element {
-    const approval: ReleaseApproval = tableItem;
+    const approval: ReleaseApprovalEx = tableItem;
     return (<GridReleaseInfoCell
         key={`col-release-${columnIndex}-${rowIndex}`}
         rowIndex={rowIndex}
@@ -24,7 +25,7 @@ export function renderGridReleaseInfoCell(
 }
 
 export interface IGridReleaseInfoCellProps {
-    releaseApproval: ReleaseApproval;
+    releaseApproval: ReleaseApprovalEx;
     rowIndex: number;
     columnIndex: number;
     tableColumn: ITableColumn<{}>;

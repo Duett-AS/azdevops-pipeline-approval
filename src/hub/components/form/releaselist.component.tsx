@@ -5,10 +5,11 @@ import { IconSize, Icon } from "azure-devops-ui/Icon";
 import { PillGroup } from "azure-devops-ui/PillGroup";
 import { Pill, PillSize, PillVariant } from "azure-devops-ui/Pill";
 import { Colors } from "@src-root/hub/model/Colors";
-import { ReleaseApproval, ApprovalType } from "azure-devops-extension-api/Release";
+import { ApprovalType } from "azure-devops-extension-api/Release";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export interface IFormReleaseListProps {
-    releases?: ArrayItemProvider<ReleaseApproval>;
+    releases?: ArrayItemProvider<ReleaseApprovalEx>;
 }
 
 export class FormReleaseList extends React.Component<IFormReleaseListProps> {
@@ -18,7 +19,7 @@ export class FormReleaseList extends React.Component<IFormReleaseListProps> {
     }
 
     render(): JSX.Element {
-        const releases = this.props.releases ? this.props.releases : new ArrayItemProvider<ReleaseApproval>([]);
+        const releases = this.props.releases ? this.props.releases : new ArrayItemProvider<ReleaseApprovalEx>([]);
         return (<ScrollableList
             itemProvider={releases}
             renderRow={this._renderListRow}
@@ -27,8 +28,8 @@ export class FormReleaseList extends React.Component<IFormReleaseListProps> {
 
     _renderListRow = (
         index: number,
-        item: ReleaseApproval,
-        details: IListItemDetails<ReleaseApproval>,
+        item: ReleaseApprovalEx,
+        details: IListItemDetails<ReleaseApprovalEx>,
         key?: string
     ): JSX.Element => {
         const approvalType = item.approvalType;

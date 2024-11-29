@@ -16,7 +16,7 @@ import { renderGridReleaseInfoCell } from "@src-root/hub/components/grid/release
 import { renderGridApproverInfoCell } from "@src-root/hub/components/grid/approverinfocell.component";
 import { renderGridActionsCell } from "@src-root/hub/components/grid/actionscell.component";
 import { Card } from "azure-devops-ui/Card";
-import { ReleaseApproval, ApprovalType } from "azure-devops-extension-api/Release";
+import { ApprovalType } from "azure-devops-extension-api/Release";
 import { ConditionalChildren } from "azure-devops-ui/ConditionalChildren";
 import ReleaseApprovalForm from "@src-root/hub/components/form/form.component";
 import { ReleaseService } from "@src-root/hub/services/release.service";
@@ -40,8 +40,8 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
     private _approvalsService: ReleaseApprovalService = new ReleaseApprovalService();
     private _releaseService: ReleaseService = new ReleaseService();
 
-    private _approvals: ReleaseApproval[] = [];
-    private _tableRowData: ObservableArray<ReleaseApproval> = new ObservableArray<ReleaseApproval>([]);
+    private _approvals: ReleaseApprovalEx[] = [];
+    private _tableRowData: ObservableArray<ReleaseApprovalEx> = new ObservableArray<ReleaseApprovalEx>([]);
     // <NOFILTER>
     private _pageLength: number = 50;
     private _hasMoreItems: ObservableValue<boolean> = new ObservableValue<boolean>(false);
@@ -51,7 +51,7 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
     // </FILTER>
 
     private _selection: ListSelection = new ListSelection({ selectOnFocus: false, multiSelect: true });
-    private _selectedReleases: ArrayItemProvider<ReleaseApproval> = new ArrayItemProvider<ReleaseApproval>([]);
+    private _selectedReleases: ArrayItemProvider<ReleaseApprovalEx> = new ArrayItemProvider<ReleaseApprovalEx>([]);
 
     private _approvalForm: React.RefObject<ReleaseApprovalForm>;
     private _action: ObservableValue<ReleaseApprovalAction> = new ObservableValue<ReleaseApprovalAction>(ReleaseApprovalAction.Reject);
@@ -121,18 +121,18 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
             await this.refreshGrid();
         });
         ReleaseApprovalEvents.subscribe(EventType.ClearGridSelection, () => {
-            this._selectedReleases = new ArrayItemProvider<ReleaseApproval>([]);
+            this._selectedReleases = new ArrayItemProvider<ReleaseApprovalEx>([]);
         });
         ReleaseApprovalEvents.subscribe(EventType.ApproveAllReleases, async () => {
             await this.approveAll();
         });
-        ReleaseApprovalEvents.subscribe(EventType.ApproveSingleRelease, (approval: ReleaseApproval) => {
+        ReleaseApprovalEvents.subscribe(EventType.ApproveSingleRelease, (approval: ReleaseApprovalEx) => {
             this.approveSingle(approval);
         });
         ReleaseApprovalEvents.subscribe(EventType.RejectAllReleases, async () => {
             await this.rejectAll();
         });
-        ReleaseApprovalEvents.subscribe(EventType.RejectSingleRelease, (approval: ReleaseApproval) => {
+        ReleaseApprovalEvents.subscribe(EventType.RejectSingleRelease, (approval: ReleaseApprovalEx) => {
             this.rejectSingle(approval);
         });
 
@@ -215,9 +215,6 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         const approvals = await this._approvalsService.findApprovals(this._pageLength, continuationToken);
         const promises = approvals.map(async a => {
             await this._releaseService.getLinks(a);
-
-            const description = await this._releaseService.getDescription(a);
-            (a as ReleaseApprovalEx).description = description;
         });
         await Promise.all(promises);
         this._hasMoreItems.value = this._pageLength == approvals.length;
@@ -274,11 +271,11 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
                 iconProps: { iconName: "Rocket" }
             };
         }));
-        this._releaseFilter.push({
-            id: '999999',
-            text: 'TESTE',
-            iconProps: { iconName: "Rocket" }
-        });
+        // this._releaseFilter.push({
+        //     id: '999999',
+        //     text: 'TESTE',
+        //     iconProps: { iconName: "Rocket" }
+        // });
     }
 
     private updateStagesFilter() {
@@ -301,24 +298,24 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         const filterReleaseState = filterState[this.FilterRelease];
         const filterReleases = from(filterReleaseState && filterReleaseState.value ? filterReleaseState.value : []);
         if (filterReleases.any()) {
-            approvals = approvals.where((a: ReleaseApproval) => filterReleases.any((r: IFilterItemState) => Number(r) == a.releaseDefinition.id));
+            approvals = approvals.where((a: ReleaseApprovalEx) => filterReleases.any((r: IFilterItemState) => Number(r) == a.releaseDefinition.id));
         }
         const filterStageState = filterState[this.FilterStage];
         const filterStages = from(filterStageState && filterStageState.value ? filterStageState.value : []);
         if (filterStages.any()) {
-            approvals = approvals.where((a: ReleaseApproval) => filterStages.any((s: IFilterItemState) => s.toString() == a.releaseEnvironment.name));
+            approvals = approvals.where((a: ReleaseApprovalEx) => filterStages.any((s: IFilterItemState) => s.toString() == a.releaseEnvironment.name));
         }
         const filterTypeState = filterState[this.FilterType];
         const filterTypes = from(filterTypeState && filterTypeState.value ? filterTypeState.value : []);
         if (filterTypes.any()) {
-            approvals = approvals.where((a: ReleaseApproval) => filterTypes.any((t: IFilterItemState) => Number(t) == a.approvalType));
+            approvals = approvals.where((a: ReleaseApprovalEx) => filterTypes.any((t: IFilterItemState) => Number(t) == a.approvalType));
         }
         this._tableRowData.removeAll();
         this._tableRowData.push(...approvals.toArray());
     }
 
     private getRowShimmer(length: number): any[] {
-        return new Array(length).fill(new ObservableValue<ReleaseApproval | undefined>(undefined))
+        return new Array(length).fill(new ObservableValue<ReleaseApprovalEx | undefined>(undefined))
     }
 
     async refreshGrid(): Promise<void> {
@@ -326,8 +323,8 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         await this.loadData();
     }
 
-    private approveSingle(approval: ReleaseApproval): void {
-        this._selectedReleases = new ArrayItemProvider<ReleaseApproval>([approval]);
+    private approveSingle(approval: ReleaseApprovalEx): void {
+        this._selectedReleases = new ArrayItemProvider<ReleaseApprovalEx>([approval]);
         this.approve();
     }
 
@@ -345,8 +342,8 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
         this.dialog.openDialog(this._selectedReleases);
     }
 
-    private rejectSingle(approval: ReleaseApproval): void {
-        this._selectedReleases = new ArrayItemProvider<ReleaseApproval>([approval]);
+    private rejectSingle(approval: ReleaseApprovalEx): void {
+        this._selectedReleases = new ArrayItemProvider<ReleaseApprovalEx>([approval]);
         this.reject();
     }
 
@@ -365,14 +362,14 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
     }
 
     private getSelectedReleases(): void {
-        this._selectedReleases = new ArrayItemProvider<ReleaseApproval>([]);
-        let releases: Array<ReleaseApproval> = new Array<ReleaseApproval>();
+        this._selectedReleases = new ArrayItemProvider<ReleaseApprovalEx>([]);
+        let releases: Array<ReleaseApprovalEx> = new Array<ReleaseApprovalEx>();
         this._selection.value.forEach((range: ISelectionRange) => {
             for (let index: number = range.beginIndex; index <= range.endIndex; index++) {
                 releases.push(this._tableRowData.value[index]);
             }
         });
-        this._selectedReleases = new ArrayItemProvider<ReleaseApproval>(releases);
+        this._selectedReleases = new ArrayItemProvider<ReleaseApprovalEx>(releases);
     }
 
     private async showErrorMessage(message: string): Promise<void> {

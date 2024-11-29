@@ -3,7 +3,7 @@ import { ITableColumn, SimpleTableCell } from "azure-devops-ui/Table";
 import { ButtonGroup } from "azure-devops-ui/ButtonGroup";
 import { Button } from "azure-devops-ui/Button";
 import { ReleaseApprovalEvents, EventType } from "@src-root/hub/model/ReleaseApprovalEvents";
-import { ReleaseApproval } from "azure-devops-extension-api/Release";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export function renderGridActionsCell(
     rowIndex: number,
@@ -11,7 +11,7 @@ export function renderGridActionsCell(
     tableColumn: ITableColumn<{}>,
     tableItem: any
 ): JSX.Element {
-    const approval: ReleaseApproval = tableItem;
+    const approval: ReleaseApprovalEx = tableItem;
     return (<GridActionsCell
         key={`col-actions-${columnIndex}-${rowIndex}`}
         rowIndex={rowIndex}
@@ -21,7 +21,7 @@ export function renderGridActionsCell(
 }
 
 export interface IGridActionsCellProps {
-    releaseApproval: ReleaseApproval;
+    releaseApproval: ReleaseApprovalEx;
     rowIndex: number;
     columnIndex: number;
     tableColumn: ITableColumn<{}>;

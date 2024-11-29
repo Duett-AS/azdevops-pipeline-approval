@@ -5,7 +5,7 @@ import { Tooltip } from "azure-devops-ui/TooltipEx";
 import { Icon } from "azure-devops-ui/Icon";
 import { Duration } from "azure-devops-ui/Duration";
 import { ConditionalChildren } from "azure-devops-ui/ConditionalChildren";
-import { ReleaseApproval } from "azure-devops-extension-api/Release";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export function renderGridApproverInfoCell(
     rowIndex: number,
@@ -13,7 +13,7 @@ export function renderGridApproverInfoCell(
     tableColumn: ITableColumn<{}>,
     tableItem: any
 ): JSX.Element {
-    const approval: ReleaseApproval = tableItem;
+    const approval: ReleaseApprovalEx = tableItem;
     return (<GridApproverInfoCell
         key={`col-approver-${columnIndex}-${rowIndex}`}
         rowIndex={rowIndex}
@@ -23,7 +23,7 @@ export function renderGridApproverInfoCell(
 }
 
 export interface IGridApproverInfoCellProps {
-    releaseApproval: ReleaseApproval;
+    releaseApproval: ReleaseApprovalEx;
     rowIndex: number;
     columnIndex: number;
     tableColumn: ITableColumn<{}>;

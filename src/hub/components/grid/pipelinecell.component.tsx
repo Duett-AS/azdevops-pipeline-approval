@@ -2,8 +2,8 @@ import * as React from "react";
 import { ITableColumn, SimpleTableCell } from "azure-devops-ui/Table";
 import { Status, Statuses, StatusSize } from "azure-devops-ui/Status";
 import { Tooltip } from "azure-devops-ui/TooltipEx";
-import { ReleaseApproval } from "azure-devops-extension-api/Release";
 import { Link } from "azure-devops-ui/Link";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export function renderGridPipelineCell(
     rowIndex: number,
@@ -11,7 +11,7 @@ export function renderGridPipelineCell(
     tableColumn: ITableColumn<{}>,
     tableItem: any
 ): JSX.Element {
-    const approval: ReleaseApproval = tableItem;
+    const approval: ReleaseApprovalEx = tableItem;
     return (<GridPipelineCell
         key={`col-pipeline-${columnIndex}-${rowIndex}`}
         rowIndex={rowIndex}
@@ -21,7 +21,7 @@ export function renderGridPipelineCell(
 }
 
 export interface IGridPipelineCellProps {
-    releaseApproval: ReleaseApproval;
+    releaseApproval: ReleaseApprovalEx;
     rowIndex: number;
     columnIndex: number;
     tableColumn: ITableColumn<{}>;

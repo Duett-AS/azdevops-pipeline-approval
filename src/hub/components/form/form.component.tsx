@@ -10,9 +10,9 @@ import { ConditionalChildren } from "azure-devops-ui/ConditionalChildren";
 import { FormDeferredDeployment } from "@src-root/hub/components/form/deferreddeployment.component";
 import { ReleaseApprovalService } from "@src-root/hub/services/release-approval.service";
 import { ReleaseApprovalEvents, EventType } from "@src-root/hub/model/ReleaseApprovalEvents";
-import { ReleaseApproval } from "azure-devops-extension-api/Release";
 import { FormItem } from "azure-devops-ui/FormItem";
 import { TextField, TextFieldWidth } from "azure-devops-ui/TextField";
+import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
 
 export interface IReleaseApprovalFormProps {
     action: ObservableValue<ReleaseApprovalAction>;
@@ -22,7 +22,7 @@ export default class ReleaseApprovalForm extends React.Component<IReleaseApprova
 
     private _releaseService: ReleaseApprovalService = new ReleaseApprovalService();
     private _isOpen: ObservableValue<boolean> = new ObservableValue<boolean>(false);
-    private _releases?: ArrayItemProvider<ReleaseApproval>;
+    private _releases?: ArrayItemProvider<ReleaseApprovalEx>;
     private _approvalComment = new ObservableValue<string>("");
     private _deferredDeployment: React.RefObject<FormDeferredDeployment>;
     private get deferredDeployment() {
@@ -83,7 +83,7 @@ export default class ReleaseApprovalForm extends React.Component<IReleaseApprova
         );
     }
 
-    openDialog(releases: ArrayItemProvider<ReleaseApproval>): void {
+    openDialog(releases: ArrayItemProvider<ReleaseApprovalEx>): void {
         this._approvalComment.value = "";
         this._releases = releases;
         this._isOpen.value = true;

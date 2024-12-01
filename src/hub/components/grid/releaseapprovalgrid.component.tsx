@@ -85,19 +85,19 @@ export default class ReleaseApprovalGrid extends React.Component<IReleaseApprova
                 id: "releaseInfo",
                 name: "Release",
                 renderCell: renderGridReleaseInfoCell,
-                width: -40
+                width: 200
             },
             {
                 id: "description",
                 name: "Description",
                 renderCell: renderGridDescriptionCell,
-                width: 300
+                width: 400
             },
             {
                 id: "approverInfo",
                 name: "Approval Status",
                 renderCell: renderGridApproverInfoCell,
-                width: -60
+                width: -100
             },
             {
                 id: "actions",

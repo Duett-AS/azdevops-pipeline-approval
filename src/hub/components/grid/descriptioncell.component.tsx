@@ -1,6 +1,7 @@
 import * as React from "react";
 import { SimpleTableCell, ITableColumn } from "azure-devops-ui/Table";
 import { ReleaseApprovalEx } from "@src-root/hub/model/ReleaseApprovalEx";
+import { Tooltip } from "azure-devops-ui/TooltipEx";
 
 export function renderGridDescriptionCell (
     rowIndex: number,
@@ -40,10 +41,11 @@ export default class GridDescriptionCell extends React.Component<IGridDescriptio
                 key={`col-description-${this.props.columnIndex}-${this.props.rowIndex}`}
                 className="bolt-table-cell-content-with-inline-link no-v-padding">
 
-                <div>
-                    <span>{this.props.releaseApproval.description}</span>
-                </div>
-
+                <Tooltip text={this.props.releaseApproval.description}>
+                    <div style={{ overflow: "hidden", whiteSpace: "normal", maxHeight: "140px", width: "400px"}}>
+                        {this.props.releaseApproval.description}
+                    </div>
+                </Tooltip>
             </SimpleTableCell>
         );
     }

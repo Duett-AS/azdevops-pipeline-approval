@@ -4,12 +4,10 @@ import { getClient, IProjectPageService, CommonServiceIds, IProjectInfo } from "
 import { ReleaseApprovalEx } from "../model/ReleaseApprovalEx";
 import { BuildRestClient } from "azure-devops-extension-api/Build";
 
-
 interface WorkItemReference {
     id: string;
     url: string;
 }
-
 
 export class ReleaseApprovalService {
 
@@ -45,21 +43,12 @@ export class ReleaseApprovalService {
             releaseApproval.linkedWorkItems = [];
             for(const buildId of buildIds) {
                 const workItems = await this.getLinkedWorkItems(parseInt(buildId));
-                releaseApproval.linkedWorkItems.push(...workItems.map(w => w.id));
+                const workItemObjects = workItems.map(w => ({
+                    id: w.id,
+                    url: `https://dev.azure.com/${SDK.getHost().name}/${project?.name}/_workitems/edit/${w.id}`
+                }));
+                releaseApproval.linkedWorkItems.push(...workItemObjects);
             }
-
-
-            const host = SDK.getHost();
-            const urls = [];
-
-            // construct urls for work items
-            for (const workItemId of releaseApproval.linkedWorkItems) {
-                const constructedUrl = `https://dev.azure.com/${host.name}/${project?.name}/_workitems/edit/${workItemId}`;
-                const item = `${workItemId};${constructedUrl}`;
-                urls.push(item);
-            }
-
-            releaseApproval.linkedWorkItems = urls;
         };
 
         return allApprovals as ReleaseApprovalEx[];

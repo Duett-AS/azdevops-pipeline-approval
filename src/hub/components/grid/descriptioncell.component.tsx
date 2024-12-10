@@ -48,7 +48,7 @@ export default class GridDescriptionCell extends React.Component<IGridDescriptio
                         {this.props.releaseApproval.linkedWorkItems.map((item: any) => {
                             return (
                                 <span key={item.id}>
-                                    <a href={item.url}>{item.id}</a>&nbsp;
+                                    <a href={item.url} target="_blank">{item.id}</a>&nbsp;
                                 </span>
                             );
                         })}

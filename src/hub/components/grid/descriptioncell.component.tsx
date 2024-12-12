@@ -43,7 +43,16 @@ export default class GridDescriptionCell extends React.Component<IGridDescriptio
 
                 <Tooltip text={this.props.releaseApproval.description}>
                     <div style={{ overflow: "hidden", whiteSpace: "normal", maxHeight: "140px", width: "400px"}}>
-                        {this.props.releaseApproval.description}
+                        <p><strong>{this.props.releaseApproval.description}</strong></p>
+                                                
+                        {this.props.releaseApproval.linkedWorkItems.map((item: any) => {
+                            return (
+                                <span key={item.id}>
+                                    <a href={item.url} target="_blank">{item.id}</a>&nbsp;
+                                </span>
+                            );
+                        })}
+
                     </div>
                 </Tooltip>
             </SimpleTableCell>

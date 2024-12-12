@@ -2,6 +2,12 @@ import * as SDK from "azure-devops-extension-sdk";
 import { ReleaseRestClient, ApprovalStatus, EnvironmentStatus } from "azure-devops-extension-api/Release";
 import { getClient, IProjectPageService, CommonServiceIds, IProjectInfo } from "azure-devops-extension-api";
 import { ReleaseApprovalEx } from "../model/ReleaseApprovalEx";
+import { BuildRestClient } from "azure-devops-extension-api/Build";
+
+interface WorkItemReference {
+    id: string;
+    url: string;
+}
 
 export class ReleaseApprovalService {
 
@@ -27,7 +33,22 @@ export class ReleaseApprovalService {
         for(const releaseApproval of allApprovals) {
             const release = await client.getRelease(project.name, releaseApproval.release.id);
 
+
+            // Find build IDs for all artifacts in the release
+            const buildIds = release.artifacts.map(a => a.definitionReference.version.id);
+
             releaseApproval.description = release.description;
+            
+            // Fetch linked work items for the specified build IDs
+            releaseApproval.linkedWorkItems = [];
+            for(const buildId of buildIds) {
+                const workItems = await this.getLinkedWorkItems(parseInt(buildId));
+                const workItemObjects = workItems.map(w => ({
+                    id: w.id,
+                    url: `https://dev.azure.com/${SDK.getHost().name}/${project?.name}/_workitems/edit/${w.id}`
+                }));
+                releaseApproval.linkedWorkItems.push(...workItemObjects);
+            }
         };
 
         return allApprovals as ReleaseApprovalEx[];
@@ -86,4 +107,26 @@ export class ReleaseApprovalService {
     async reject(approval: ReleaseApprovalEx, comment: string): Promise<void> {
         await this.changeStatus(approval, ApprovalStatus.Rejected, comment);
     }
+
+    private async getLinkedWorkItems(buildId: number): Promise<WorkItemReference[]> {
+        const projectService = await SDK.getService<IProjectPageService>(CommonServiceIds.ProjectPageService);
+
+        const project = await projectService.getProject();
+        
+        if (!project) {
+            throw new Error("Project information not found in the configuration.");
+        }
+      
+        try {
+            const buildClient: BuildRestClient = getClient(BuildRestClient);
+       
+            // Fetch linked work items for the specified build ID
+            const workItems: WorkItemReference[] = await buildClient.getBuildWorkItemsRefs(project.id, buildId);
+        
+            return workItems;
+        } catch (error) {
+            console.error("Error fetching linked work items:", error);
+            return [];
+        }
+    }    
 }
